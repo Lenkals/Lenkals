@@ -3,10 +3,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -116,14 +113,14 @@ public class A2_VThreadPThreadIOOperation {
 
         Path dir = Paths.get(folderPath);
         var allList = new ArrayList<HashMap<String, List<String>>>();
-        ;
+
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
                 if (Files.isRegularFile(file)) {
                     System.out.println("File: " + file.getFileName());
                     var mapResult = A2_VThreadPThreadIOOperation.fetch("D:\\dpsdearcitizens\\" + file.getFileName());
                     System.out.println("map result " + mapResult.size());
-                    allList = new ArrayList<HashMap<String, List<String>>>();
+
                     allList.add(mapResult);
                 }
             }
@@ -149,11 +146,12 @@ public class A2_VThreadPThreadIOOperation {
                 List<String> value2=null;
                 for (Map.Entry<String, List<String>> entry2 : lastMap.entrySet()) {
                     var key2 = entry2.getKey();
-                    if (key == key2) {
+                    if (key2!=null && key.trim().equalsIgnoreCase(key2.trim())) {
                         flag=true;
                         keyFinal = key2;
                         value2 = entry2.getValue();
                         value2.addAll(value);
+                        break;
                     }
                 }
                 if (!flag) {
@@ -167,7 +165,13 @@ public class A2_VThreadPThreadIOOperation {
         for (Map.Entry<String,  List<String>> entry : lastMap.entrySet()) {
             String key = entry.getKey();
             List<String> value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + value);
+            Collections.sort(value);
+
+            System.out.println( key );
+            List<String> vv = entry.getValue();
+            for(String str:vv){
+                System.out.println(str);
+            }
         }
     }
 }
