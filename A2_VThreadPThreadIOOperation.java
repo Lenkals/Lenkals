@@ -36,7 +36,9 @@ public class A2_VThreadPThreadIOOperation {
                 //  System.out.println("LIne -->"+orgLine);
                 String str[] = line.split("\\!");
                 if (line.startsWith("Name:")) {
-                    if (!mapKey.equals("test")) {
+                    if (!"test".equals(mapKey)) {
+                        if(mapKey==null)
+                        System.out.println(">>>>>> GRRRRRRRRRRRRRRRRRRRRRR");
                         map.put(mapKey, list);
                     }
                     cpfNumber = str[0];
@@ -66,7 +68,7 @@ public class A2_VThreadPThreadIOOperation {
                             counter++;
                         }
                         // System.out.println(AddOneMonthLocale.main(str[0]) + "-" + numberme + "-" + Math.round(Math.round(Double.parseDouble(numberme)) / .12));
-                        String rec = AddOneMonthLocale.main(str[0]) + "-" + numberme + "-" + Math.round(Math.round(Double.parseDouble(numberme)) / .12);
+                        String rec = AddOneMonthLocale.main(str[0]) + " | " + numberme + " | " + Math.round(Math.round(Double.parseDouble(numberme)) / .12);
                         //System.out.println("--->"+Math.round(Double.parseDouble(numberme)));
 
                         // System.out.println("tt "+tt[1]);
@@ -75,7 +77,9 @@ public class A2_VThreadPThreadIOOperation {
                     }
                 }
             }
-            map.put(mapKey, list);
+            if(mapKey==null) {
+                System.out.println(">>>>>> GRRRRRRRRRRRRRRRRRRRRRR BBBBBBBBBBB"+list);
+            }else{map.put(mapKey, list);}
         } catch (Exception e) {
             System.out.println(e);
 
@@ -167,11 +171,24 @@ public class A2_VThreadPThreadIOOperation {
             List<String> value = entry.getValue();
             Collections.sort(value);
 
+            System.out.println( "============================" );
             System.out.println( key );
+            System.out.println( "============================" );
             List<String> vv = entry.getValue();
+            var dupDAte = new ArrayList<String>();
             for(String str:vv){
                 System.out.println(str);
+                dupDAte.add(str.split("\\|")[0]);
             }
+            Set<String> uniqueStrings = new HashSet<>();
+            Set<String> duplicates = new HashSet<>();
+            for(String str:dupDAte){
+                if (!uniqueStrings.add(str)) {
+                    duplicates.add(str);
+                }
+
+            }
+            System.out.println("Duplicate strings: " + duplicates);
         }
     }
 }
